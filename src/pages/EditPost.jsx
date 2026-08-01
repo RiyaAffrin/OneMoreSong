@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
+import { genreList } from '../genreColors'
 
 function EditPost() {
   const { id } = useParams()
@@ -8,6 +9,7 @@ function EditPost() {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [imageUrl, setImageUrl] = useState('')
+  const [genre, setGenre] = useState('pop')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -27,6 +29,7 @@ function EditPost() {
       setTitle(data.title)
       setBody(data.body || '')
       setImageUrl(data.image_url || '')
+      setGenre(data.genre || 'pop')
     }
     setLoading(false)
   }
@@ -34,13 +37,13 @@ function EditPost() {
   async function handleSubmit(e) {
     e.preventDefault()
     if (!title.trim()) {
-      alert('Title is required')
+      alert('Concert name is required')
       return
     }
 
     const { error } = await supabase
       .from('posts')
-      .update({ title, body, image_url: imageUrl })
+      .update({ title, body, image_url: imageUrl, genre })
       .eq('id', id)
 
     if (error) {
@@ -55,11 +58,11 @@ function EditPost() {
 
   return (
     <div className="page">
-      <Link to={`/post/${id}`} className="back-link">&larr; back to post</Link>
-      <h1>Edit post</h1>
+      <Link to={`/post/${id}`} className="back-link">&larr; back to request</Link>
+      <h1>Edit request</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Title (required)</label>
+          <label>Song title (required)</label>
           <input
             type="text"
             value={title}
@@ -67,14 +70,22 @@ function EditPost() {
           />
         </div>
         <div>
-          <label>Body (optional)</label>
+          <label>Genre</label>
+          <select value={genre} onChange={(e) => setGenre(e.target.value)}>
+            {genreList.map((g) => (
+              <option key={g} value={g}>{g}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>Why this one? (optional)</label>
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
           />
         </div>
         <div>
-          <label>Image URL (optional)</label>
+          <label>Album art URL (optional)</label>
           <input
             type="text"
             value={imageUrl}

@@ -1,12 +1,12 @@
 :root {
-  --ink: #3A3632;
-  --cream: #FDF9F3;
-  --sky: #B8D4E3;
-  --sky-deep: #6B93AC;
-  --sage: #BBD1AC;
-  --sage-deep: #7C9A72;
-  --line: rgba(58, 54, 50, 0.10);
-  --shadow: 0 4px 16px rgba(58, 54, 50, 0.08);
+  --ink: #6b4a5e;
+  --cream: #fff5f9;
+  --pink: #ffc2e0;
+  --pink-deep: #e0759e;
+  --lavender: #c6d9f7;
+  --lavender-deep: #8fa8e0;
+  --line: rgba(217, 85, 143, 0.18);
+  --shadow: 0 4px 15px rgba(255, 182, 217, 0.4);
 }
 
 * {
@@ -15,27 +15,30 @@
 
 body {
   margin: 0;
-  background: var(--cream);
+  background: linear-gradient(135deg, #ffe6f0 0%, #fff0f5 40%, #e6f0ff 100%);
+  background-attachment: fixed;
   color: var(--ink);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
 }
 
 h1, h2, h3 {
-  font-family: 'Fraunces', serif;
-  font-weight: 500;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  color: var(--pink-deep);
 }
 
 .page {
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 48px 24px;
 }
 
 .tagline {
-  font-family: 'Caveat', cursive;
-  font-size: 24px;
-  color: var(--sage-deep);
-  margin: -8px 0 20px;
+  color: var(--lavender-deep);
+  font-size: 16px;
+  font-weight: 500;
+  margin: -8px 0 24px;
   display: block;
 }
 
@@ -43,10 +46,13 @@ form {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  background: white;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+  border: 2px solid var(--pink);
   padding: 28px;
-  border-radius: 20px;
+  border-radius: 24px;
   box-shadow: var(--shadow);
+  max-width: 600px;
 }
 
 label {
@@ -54,36 +60,39 @@ label {
   font-size: 14px;
   margin-bottom: 6px;
   display: block;
-  color: var(--sky-deep);
+  color: var(--pink-deep);
 }
 
-input, textarea {
+input, textarea, select {
   width: 100%;
-  padding: 12px 14px;
-  border: 2px solid var(--line);
-  border-radius: 14px;
-  font-family: 'Inter', sans-serif;
+  padding: 12px 16px;
+  border: 2px solid var(--pink);
+  border-radius: 999px;
+  font-family: 'Poppins', sans-serif;
   font-size: 15px;
-  background: var(--cream);
-  transition: border-color 0.15s ease;
-}
-
-input:focus, textarea:focus {
-  outline: none;
-  border-color: var(--sky-deep);
+  background: white;
+  color: var(--ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 textarea {
+  border-radius: 20px;
   min-height: 100px;
   resize: vertical;
 }
 
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--pink-deep);
+  box-shadow: 0 0 8px rgba(224, 117, 158, 0.4);
+}
+
 button {
-  background: var(--sky-deep);
+  background: var(--pink-deep);
   color: white;
   border: none;
   border-radius: 999px;
-  padding: 12px 24px;
+  padding: 12px 26px;
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
@@ -93,51 +102,127 @@ button {
 }
 
 button:hover {
-  background: var(--sage-deep);
+  background: var(--lavender-deep);
   transform: translateY(-1px);
 }
 
+.concert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
 .post-card {
-  display: block;
-  background: white;
-  border-radius: 16px;
-  padding: 16px 20px;
-  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--pink);
+  border-top: 6px solid var(--card-accent, var(--pink));
+  border-radius: 20px;
+  padding: 18px;
   box-shadow: var(--shadow);
   text-decoration: none;
   color: var(--ink);
   transition: transform 0.1s ease;
+  min-height: 190px;
 }
 
 .post-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .post-card h3 {
-  margin: 0 0 6px;
+  margin: 8px 0 10px;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.genre-tag {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+}
+
+.event-date {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--card-accent, var(--pink-deep));
+  margin-bottom: 4px;
+}
+
+.post-venue {
+  font-size: 12px;
+  color: var(--ink);
+  opacity: 0.7;
+  margin-bottom: auto;
+}
+
+.post-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.hype-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--lavender-deep);
+}
+
+.added-time {
+  font-size: 11px;
+  color: var(--ink);
+  opacity: 0.5;
+}
+
+.post-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.concert-details {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--ink);
 }
 
 .post-meta {
   display: flex;
   gap: 14px;
   font-size: 13px;
-  color: var(--sky-deep);
+  color: var(--lavender-deep);
+  font-weight: 500;
 }
 
 .back-link {
   display: inline-block;
   margin-bottom: 16px;
   font-size: 14px;
-  color: var(--sky-deep);
+  font-weight: 600;
+  color: var(--pink-deep);
 }
 
 .post-title {
-  margin: 8px 0 4px;
+  margin: 0;
+  font-size: 32px;
 }
 
 .post-image {
   width: 100%;
-  border-radius: 16px;
+  border-radius: 20px;
   margin: 16px 0;
   box-shadow: var(--shadow);
 }
@@ -159,7 +244,7 @@ button:hover {
 .post-actions button,
 .post-actions .ghost-btn {
   border-radius: 999px;
-  padding: 10px 18px;
+  padding: 10px 20px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -167,7 +252,7 @@ button:hover {
 }
 
 .post-actions button {
-  background: var(--sage-deep);
+  background: var(--lavender-deep);
   color: white;
   border: none;
 }
@@ -175,27 +260,33 @@ button:hover {
 .post-actions .ghost-btn {
   background: white;
   color: var(--ink);
-  border: 2px solid var(--line);
+  border: 2px solid var(--pink);
   text-decoration: none;
 }
 
 .danger-btn {
-  background: #C97B68 !important;
+  background: #e0759e !important;
 }
 
 .comments-section {
-  background: white;
-  border-radius: 20px;
-  padding: 24px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+  border: 2px solid var(--pink);
+  border-radius: 24px;
+  padding: 26px;
   box-shadow: var(--shadow);
+  max-width: 600px;
 }
 
 .comments-section form {
   box-shadow: none;
+  border: none;
+  background: none;
   padding: 0;
   margin-bottom: 20px;
   flex-direction: row;
   align-items: flex-start;
+  max-width: none;
 }
 
 .comments-section textarea {
@@ -217,7 +308,38 @@ button:hover {
 
 .comment-time {
   font-size: 12px;
-  color: var(--sky-deep);
+  color: var(--lavender-deep);
+}
+
+.comment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.comment-row p {
+  flex: 1;
+}
+
+.comment-vote-btn {
+  background: white;
+  color: var(--pink-deep);
+  border: 2px solid var(--pink);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: none;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+
+.comment-vote-btn:hover {
+  background: var(--pink-deep);
+  color: white;
+  transform: none;
 }
 
 .controls {
@@ -232,11 +354,53 @@ button:hover {
   min-width: 180px;
 }
 
-.controls select {
-  padding: 10px 14px;
-  border: 2px solid var(--line);
-  border-radius: 14px;
-  background: white;
-  font-family: 'Inter', sans-serif;
+.top-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.add-concert-btn {
+  display: inline-block;
+  background: var(--pink-deep);
+  color: white;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-weight: 600;
   font-size: 14px;
+  box-shadow: var(--shadow);
+}
+
+.add-concert-btn:hover {
+  background: var(--lavender-deep);
+}
+
+.sync-btn {
+  background: white;
+  color: var(--pink-deep);
+  border: 2px solid var(--pink);
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.sync-btn:hover {
+  background: var(--pink);
+  transform: none;
+}
+
+.sync-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.sync-message {
+  font-size: 13px;
+  color: var(--lavender-deep);
+  margin: 0 0 16px;
+  font-weight: 500;
 }
