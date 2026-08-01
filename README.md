@@ -1,10 +1,10 @@
-# bakehub
+# OneMoreSong
 
-Submitted by: **riya**
+Submitted by: **Riya**
 
-**bakehub** is an app that allows users to create posts about their baking projects, view them in a home feed, sort and search through them, and leave comments, upvotes, edits, and deletes on individual posts.
+**OneMoreSong** is a concert board where fans can post upcoming concerts, browse them by genre, vote on how hyped they are for a show, and request/vote on which songs they want to hear live. Concerts can be added manually or pulled in live from Ticketmaster's real event data.
 
-Time spent: **12** hours spent in total
+Time spent: **20** hours spent in total
 
 ## Required Features
 
@@ -30,14 +30,18 @@ The following **optional** features are implemented:
 - [ ] Web app implements pseudo-authentication
 - [ ] Users can repost a previous post by referencing its post ID
 - [ ] Users can customize the interface
-- [ ] Users can set flags such as "Question" or "Opinion" while creating a post
+- [x] Users can add more characteristics to their posts
+  - Genre tagging with color-coded cards, plus venue, event date, ticket price, and a ticket purchase link per concert
 - [ ] Users can filter posts by flags on the home feed
 - [ ] Users can upload images directly from their local machine as an image file
 - [ ] Web app displays a loading animation whenever data is being fetched
 
 The following **additional** features are implemented:
 
-* Custom color palette and typography (Fraunces + Inter + Caveat) for a cute, cozy baking-blog aesthetic
+* Live concert data sync via the Ticketmaster Discovery API — pulls real, current concerts into the app on demand
+* Per-comment (per-song-request) voting, independent from the overall concert upvote count
+* Custom color palette and typography (Baloo 2 + Poppins) with genre-based accent colors on each card
+* Responsive card-grid layout instead of a single-column list
 
 ## Video Walkthrough
 
@@ -52,12 +56,14 @@ GIF created with ...
 Describe any challenges encountered while building the app.
 
 - Getting Row Level Security (RLS) turned off correctly on both Supabase tables took some troubleshooting — by default Supabase blocks all reads/writes from the client unless RLS is disabled or policies are configured.
-- Debugging a blank page/import error where a page component was referenced in routing before the file itself was created.
-- Styling took several iterations to land on the right look and feel.
+- Debugging a blank page caused by a missing export (`mapGenre`) — one function referenced in an import but not actually defined broke the whole app's module loading.
+- Ticketmaster sync initially failed with 400 errors because new database columns (`venue`, `event_date`, `price`, `ticket_link`) hadn't been added to the `posts` table yet before the sync tried to insert into them.
+- Iterated through a few different concepts (baking forum → pop music forum → concert song-request board) before landing on the final direction.
+- Styling took several passes to land on a layout that felt lively rather than plain — moved from a single-column list to a responsive card grid with genre-based color coding.
 
 ## License
 
-    Copyright [2026] [RIya]
+    Copyright 2026 Riya
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
