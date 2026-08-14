@@ -92,7 +92,7 @@ function PostPage() {
   if (!post) return <div className="page"><p>Concert not found.</p></div>
 
   const colors = genreColors[post.genre] || genreColors.other
-  const isOwner = post.creator_id && post.creator_id === getUserId()
+  const isOwner = post.creator_id === getUserId()
 
   return (
     <div className="page">
@@ -145,8 +145,12 @@ function PostPage() {
         )}
       </div>
 
-      {!isOwner && post.creator_id && (
-        <p className="owner-note">Only the person who added this concert can edit or delete it.</p>
+      {!isOwner && (
+        <p className="owner-note">
+          {post.creator_id
+            ? "Only the person who added this concert can edit or delete it."
+            : "This concert came from a live sync and can't be edited or deleted."}
+        </p>
       )}
 
       <div className="comments-section">

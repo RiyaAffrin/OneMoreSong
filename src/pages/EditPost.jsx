@@ -32,7 +32,7 @@ function EditPost() {
 
     if (error) {
       console.error(error)
-    } else if (data.creator_id && data.creator_id !== getUserId()) {
+      } else if (data.creator_id !== getUserId()) {
       alert("You can only edit concerts you created.")
       navigate(`/post/${id}`)
       return
