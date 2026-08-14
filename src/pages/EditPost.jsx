@@ -7,6 +7,12 @@ function EditPost() {
   const { id } = useParams()
   const navigate = useNavigate()
   const [title, setTitle] = useState('')
+  const [venue, setVenue] = useState('')
+  const [eventDate, setEventDate] = useState('')
+  const [eventTime, setEventTime] = useState('')
+  const [price, setPrice] = useState('')
+  const [ticketLink, setTicketLink] = useState('')
+  const [artistLink, setArtistLink] = useState('')
   const [body, setBody] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [genre, setGenre] = useState('pop')
@@ -27,6 +33,12 @@ function EditPost() {
       console.error(error)
     } else {
       setTitle(data.title)
+      setVenue(data.venue || '')
+      setEventDate(data.event_date || '')
+      setEventTime(data.event_time || '')
+      setPrice(data.price || '')
+      setTicketLink(data.ticket_link || '')
+      setArtistLink(data.artist_link || '')
       setBody(data.body || '')
       setImageUrl(data.image_url || '')
       setGenre(data.genre || 'pop')
@@ -37,13 +49,24 @@ function EditPost() {
   async function handleSubmit(e) {
     e.preventDefault()
     if (!title.trim()) {
-      alert('Concert name is required')
+      alert('Artist/concert title is required')
       return
     }
 
     const { error } = await supabase
       .from('posts')
-      .update({ title, body, image_url: imageUrl, genre })
+      .update({
+        title,
+        venue,
+        event_date: eventDate,
+        event_time: eventTime,
+        price,
+        ticket_link: ticketLink,
+        artist_link: artistLink,
+        body,
+        image_url: imageUrl,
+        genre,
+      })
       .eq('id', id)
 
     if (error) {
@@ -58,11 +81,11 @@ function EditPost() {
 
   return (
     <div className="page">
-      <Link to={`/post/${id}`} className="back-link">&larr; back to request</Link>
-      <h1>Edit request</h1>
+      <Link to={`/post/${id}`} className="back-link">&larr; back to concert</Link>
+      <h1>Edit concert</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Song title (required)</label>
+          <label>Artist / concert title (required)</label>
           <input
             type="text"
             value={title}
@@ -78,14 +101,62 @@ function EditPost() {
           </select>
         </div>
         <div>
-          <label>Why this one? (optional)</label>
+          <label>Venue (optional)</label>
+          <input
+            type="text"
+            value={venue}
+            onChange={(e) => setVenue(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Date (optional)</label>
+          <input
+            type="text"
+            value={eventDate}
+            onChange={(e) => setEventDate(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Time (optional)</label>
+          <input
+            type="text"
+            value={eventTime}
+            onChange={(e) => setEventTime(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Price (optional)</label>
+          <input
+            type="text"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Ticket link (optional)</label>
+          <input
+            type="text"
+            value={ticketLink}
+            onChange={(e) => setTicketLink(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Artist / festival website (optional)</label>
+          <input
+            type="text"
+            value={artistLink}
+            onChange={(e) => setArtistLink(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Details (optional)</label>
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
           />
         </div>
         <div>
-          <label>Album art URL (optional)</label>
+          <label>Poster image URL (optional)</label>
           <input
             type="text"
             value={imageUrl}

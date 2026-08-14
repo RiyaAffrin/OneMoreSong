@@ -41,6 +41,15 @@ function HomeFeed() {
     setSyncing(false)
   }
 
+  function isUpcoming(post) {
+    if (!post.event_date) return true // no date given, keep it
+    const parsed = new Date(post.event_date)
+    if (isNaN(parsed)) return true // couldn't parse, keep it rather than hide it
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    return parsed >= today
+  }
+
   function sortPosts(list) {
     const sorted = [...list]
     if (orderBy === 'upvotes') {
@@ -48,7 +57,6 @@ function HomeFeed() {
     } else if (orderBy === 'created_at') {
       sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     } else {
-      // event_date — soonest concert first; posts with no date go last
       sorted.sort((a, b) => {
         const dateA = a.event_date ? new Date(a.event_date) : null
         const dateB = b.event_date ? new Date(b.event_date) : null
@@ -62,7 +70,9 @@ function HomeFeed() {
   }
 
   const filteredPosts = sortPosts(
-    posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase()))
+    posts
+      .filter((post) => post.title.toLowerCase().includes(search.toLowerCase()))
+      .filter(isUpcoming)
   )
 
   return (
@@ -96,7 +106,7 @@ function HomeFeed() {
       {loading && <p>Loading concerts...</p>}
 
       {!loading && filteredPosts.length === 0 && (
-        <p>No concerts yet — add one or sync live data! 🎶</p>
+        <p>No upcoming concerts yet — add one or sync live data! 🎶</p>
       )}
 
       <div className="concert-grid">

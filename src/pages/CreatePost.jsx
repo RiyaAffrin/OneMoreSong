@@ -4,6 +4,12 @@ import { genreList } from '../genreColors'
 
 function CreatePost() {
   const [title, setTitle] = useState('')
+  const [venue, setVenue] = useState('')
+  const [eventDate, setEventDate] = useState('')
+  const [eventTime, setEventTime] = useState('')
+  const [price, setPrice] = useState('')
+  const [ticketLink, setTicketLink] = useState('')
+  const [artistLink, setArtistLink] = useState('')
   const [body, setBody] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [genre, setGenre] = useState('pop')
@@ -12,13 +18,22 @@ function CreatePost() {
     e.preventDefault()
 
     if (!title.trim()) {
-      alert('Concert title is required')
+      alert('Artist/concert title is required')
       return
     }
 
-    const { error } = await supabase
-      .from('posts')
-      .insert({ title, body, image_url: imageUrl, genre })
+    const { error } = await supabase.from('posts').insert({
+      title,
+      venue,
+      event_date: eventDate,
+      event_time: eventTime,
+      price,
+      ticket_link: ticketLink,
+      artist_link: artistLink,
+      body,
+      image_url: imageUrl,
+      genre,
+    })
 
     if (error) {
       console.error(error)
@@ -26,6 +41,12 @@ function CreatePost() {
     } else {
       alert('Concert added!')
       setTitle('')
+      setVenue('')
+      setEventDate('')
+      setEventTime('')
+      setPrice('')
+      setTicketLink('')
+      setArtistLink('')
       setBody('')
       setImageUrl('')
       setGenre('pop')
@@ -38,10 +59,10 @@ function CreatePost() {
       <span className="tagline">who's playing near you?</span>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Concert title (required)</label>
+          <label>Artist / concert title (required)</label>
           <input
             type="text"
-            placeholder="e.g. Chappell Roan — Climate Pledge Arena"
+            placeholder="e.g. Chappell Roan"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -55,9 +76,62 @@ function CreatePost() {
           </select>
         </div>
         <div>
+          <label>Venue (optional)</label>
+          <input
+            type="text"
+            placeholder="e.g. Climate Pledge Arena, Seattle"
+            value={venue}
+            onChange={(e) => setVenue(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Date (optional)</label>
+          <input
+            type="text"
+            placeholder="e.g. August 25, 2026"
+            value={eventDate}
+            onChange={(e) => setEventDate(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Time (optional)</label>
+          <input
+            type="text"
+            placeholder="e.g. 7:30 PM"
+            value={eventTime}
+            onChange={(e) => setEventTime(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Price (optional)</label>
+          <input
+            type="text"
+            placeholder="e.g. $95"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Ticket link (optional)</label>
+          <input
+            type="text"
+            placeholder="https://..."
+            value={ticketLink}
+            onChange={(e) => setTicketLink(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Artist / festival website (optional)</label>
+          <input
+            type="text"
+            placeholder="https://..."
+            value={artistLink}
+            onChange={(e) => setArtistLink(e.target.value)}
+          />
+        </div>
+        <div>
           <label>Details (optional)</label>
           <textarea
-            placeholder="Date, venue info, anything fans should know..."
             value={body}
             onChange={(e) => setBody(e.target.value)}
           />

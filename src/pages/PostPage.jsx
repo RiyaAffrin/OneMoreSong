@@ -102,6 +102,16 @@ function PostPage() {
           {post.genre}
         </span>
       </div>
+
+      {(post.venue || post.event_date || post.event_time || post.price) && (
+        <div className="concert-details">
+          {post.venue && <span>📍 {post.venue}</span>}
+          {post.event_date && <span>📅 {post.event_date}</span>}
+          {post.event_time && <span>🕐 {post.event_time}</span>}
+          {post.price && <span>🎟️ {post.price}</span>}
+        </div>
+      )}
+
       <div className="post-meta">
         <span>{new Date(post.created_at).toLocaleString()}</span>
         <span>{post.upvotes} hype votes</span>
@@ -115,6 +125,16 @@ function PostPage() {
 
       <div className="post-actions">
         <button onClick={handleUpvote}>🎉 I'm hyped</button>
+        {post.ticket_link && (
+          <a href={post.ticket_link} target="_blank" rel="noreferrer" className="ghost-btn">
+            Get tickets ↗
+          </a>
+        )}
+        {post.artist_link && (
+          <a href={post.artist_link} target="_blank" rel="noreferrer" className="ghost-btn">
+            Artist site ↗
+          </a>
+        )}
         <Link to={`/post/${id}/edit`} className="ghost-btn">Edit</Link>
         <button className="danger-btn" onClick={handleDelete}>Delete</button>
       </div>
