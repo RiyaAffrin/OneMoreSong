@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 import { genreList } from '../genreColors'
+import { getUserId } from '../userId'
 
 function EditPost() {
   const { id } = useParams()
@@ -31,6 +32,10 @@ function EditPost() {
 
     if (error) {
       console.error(error)
+    } else if (data.creator_id && data.creator_id !== getUserId()) {
+      alert("You can only edit concerts you created.")
+      navigate(`/post/${id}`)
+      return
     } else {
       setTitle(data.title)
       setVenue(data.venue || '')

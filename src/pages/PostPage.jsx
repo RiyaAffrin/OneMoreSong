@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 import { genreColors } from '../genreColors'
+import { getUserId } from '../userId'
 
 function PostPage() {
   const { id } = useParams()
@@ -91,6 +92,7 @@ function PostPage() {
   if (!post) return <div className="page"><p>Concert not found.</p></div>
 
   const colors = genreColors[post.genre] || genreColors.other
+  const isOwner = post.creator_id && post.creator_id === getUserId()
 
   return (
     <div className="page">
@@ -135,9 +137,17 @@ function PostPage() {
             Artist site ↗
           </a>
         )}
-        <Link to={`/post/${id}/edit`} className="ghost-btn">Edit</Link>
-        <button className="danger-btn" onClick={handleDelete}>Delete</button>
+        {isOwner && (
+          <>
+            <Link to={`/post/${id}/edit`} className="ghost-btn">Edit</Link>
+            <button className="danger-btn" onClick={handleDelete}>Delete</button>
+          </>
+        )}
       </div>
+
+      {!isOwner && post.creator_id && (
+        <p className="owner-note">Only the person who added this concert can edit or delete it.</p>
+      )}
 
       <div className="comments-section">
         <h3>Song requests ({comments.length})</h3>

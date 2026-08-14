@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../supabaseClient'
 import { genreList } from '../genreColors'
+import { getUserId } from '../userId'
 
 function CreatePost() {
   const [title, setTitle] = useState('')
@@ -33,6 +34,7 @@ function CreatePost() {
       body,
       image_url: imageUrl,
       genre,
+      creator_id: getUserId(),
     })
 
     if (error) {
